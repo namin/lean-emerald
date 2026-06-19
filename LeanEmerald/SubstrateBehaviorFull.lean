@@ -886,7 +886,7 @@ theorem jointBeh (approvals : List ApprovedModification) :
 substrate tower `T_subst`: a baseline success under `acceptAll` lifts to
 a substrate success under `mkGate approvals` with the same value.
 
-The baseline gate is `acceptAll` (per the DUMP statement). We swap to
+The baseline gate is `acceptAll`. We swap to
 `mkGate approvals` via `eval_pure_gate_indep` and then dispatch the
 joint induction. -/
 
