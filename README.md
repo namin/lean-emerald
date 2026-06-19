@@ -8,7 +8,7 @@ prioritizing elegance and pedagogy.
 
 * **Build:** `lake build` — clean. **Sorry-free across all 9 library files.**
 * **Smoke:** `lake exe smoke` — 23/23 across 8 scenes.
-* **Lean toolchain:** v4.20.0 (matches lean-sage).
+* **Lean toolchain:** v4.30.0 (matches lean-sage).
 
 ## What's mechanized
 
@@ -23,6 +23,29 @@ prioritizing elegance and pedagogy.
 | `applyVia_substrate_extends_baseline` (**Theorem 2 lite**) | At a pure, CE-invariant materialized tower, a baseline-direct dispatch's success implies the substrate's `applyVia` succeeds with the same value. The dispatch-level substrate-CE lift. |
 | `substrate_behavioral_CE` (**Theorem 2 full**) | For pure-of-effects program `e`, pure `ρ`, `AllBbApply` baseline tower `T_base`, and `CEInvariant` substrate tower `T_subst`: a baseline success under `acceptAll` lifts to a substrate success under `mkGate approvals` with the same value. The eval-level substrate behavioral CE. |
 | `substrate_behavioral_CE_initTower`, `..._initEnv`, `substrate_extends_baseline_evalProgram` | Specializations to `initTower` / `initEnv` / `evalProgram` form. |
+
+## Scope
+
+Two boundaries worth stating precisely, so the results are not over-read:
+
+* **Dispatch, not governance.** The admission decision is taken by the
+  `Gate` — an *external* parameter `Nat → Val → Val → Bool` threaded
+  through `eval`. The per-level `policy` cell is reflectively writable via
+  `.setPolicy`, but it is never consulted to govern an admission: the gate
+  is fixed for a run, and `.setApply` decides on `G L oldApply vNew`
+  alone. So Emerald demonstrates *reflectively modifiable dispatch under a
+  fixed gate*, not a self-modifying admission policy. For the
+  gates-the-gate (governance) theorem, see lean-keep.
+
+* **Preservation is baseline-relative, not chain-relative.** `CE
+  callerLevel new` and every `ApprovedModification` are stated against the
+  fixed `bbApply` baseline (`ApprovedModification.matches` ignores the old
+  dispatcher). Hence Theorem 1 (`jointInv`) guarantees that *every
+  reachable dispatcher conservatively extends the original baseline* — it
+  does **not** guarantee that each admission preserves the behavior added
+  by its predecessors. A later baseline-CE dispatcher may drop an earlier
+  extension while still extending `bbApply`. For selective, successor-
+  relative chain composition, see lean-sage.
 
 ## File map
 
