@@ -23,7 +23,7 @@ namespace LeanEmerald
 #guard_msgs in
 #print axioms mkGate_admits_CE
 
-/-- info: 'LeanEmerald.multnCE' depends on axioms: [propext, Quot.sound] -/
+/-- info: 'LeanEmerald.multnCE' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms multnCE
 
