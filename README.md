@@ -14,9 +14,9 @@ prioritizing elegance and pedagogy.
 
 | Theorem | What it says |
 |---|---|
-| `wand_beta_gate_indep_keynote` | `evalProgram 10 ((λx.x) 0) G = evalProgram 10 0 G` for any `Gate` `G`. The canonical β-redex pair from the abstract, proved by direct reduction on the concrete initial state. |
+| `betaIdZero_gate_indep_keynote` | `evalProgram 10 ((λx.x) 0) G = evalProgram 10 0 G` for any `Gate` `G`. The canonical β-redex pair from the abstract, proved by direct reduction on the concrete initial state. Gate-independence of a *pure* pair: the gate is never reached. |
 | `eval_pure_gate_indep` | The general statement: *every* pure expression evaluates the same under any pair of gates. Joint induction on fuel, bundled with `Pure` preservation across `eval` / `evalList` / `evalSeq` / `applyVia` / `applyDirect`. |
-| `beta_redex_contextual_gate_indep` | If a pair of pure terms `M`, `N` evaluates to the same value under *some* gate at any pure initial tower, they do so under *every* gate. |
+| `pure_pair_equality_gate_indep` | If a pair of pure terms `M`, `N` evaluates to the same value under *some* gate at any pure initial tower, they do so under *every* gate. A gate-transfer lemma for pure terms. |
 | `multnCE 0 multnClos` | For every call the baseline `bbApply` succeeds on at level 0, the `multn` wrapper produces the same result. The conservative-extension witness for the worked example. |
 | `multnApproval : ApprovedModification` | `multnCE` packaged into an admission record. Kernel-checked. |
 | `jointInv` (**Theorem 1**) | For any `mkGate approvals` and any reachable state from a `CEInvariant`-holding tower, the resulting tower satisfies `CEInvariant`. The state-level substrate-CE invariant. |
@@ -54,7 +54,7 @@ Two boundaries worth stating precisely, so the results are not over-read:
 | `LeanEmerald/Syntax.lean` | 180 | `Val`/`Expr`/`Env`/`Prim`/`Level`/`TowerState` types; structural `Val.beq`/`Expr.beq`/`Env.beq` |
 | `LeanEmerald/Eval.lean` | 323 | Tower helpers (`materialize`, `applyAt`, `setApplyAt`); the `Gate` abbreviation; the mutually-recursive evaluator (`eval`, `evalList`, `evalSeq`, `applyVia`, `applyDirect`); `evalProgram`; sample expressions for smoke |
 | `LeanEmerald/CE.lean` | 97 | `CE` predicate; `ApprovedModification` structure; `mkGate`; equation `mkGate [] = rejectAll` |
-| `LeanEmerald/Soundness.lean` | 770 | `Pure` predicates; side lemmas; the 10-conjunct `Joint` claim with `joint : ∀ n, Joint n`; `eval_pure_gate_indep`; `wand_beta_gate_indep_keynote`; `beta_redex_contextual_gate_indep` |
+| `LeanEmerald/Soundness.lean` | 770 | `Pure` predicates; side lemmas; the 10-conjunct `Joint` claim with `joint : ∀ n, Joint n`; `eval_pure_gate_indep`; `betaIdZero_gate_indep_keynote`; `pure_pair_equality_gate_indep` |
 | `LeanEmerald/Multn.lean` | 225 | `multnClos`; three equations `multnClos_eq_{prim,clos,bbApply}`; `multnCE`; `multnApproval` |
 | `LeanEmerald/Doubling.lean` | 83 | `doublingClos` (captures `multnClos` as `orig`); runtime composition demos |
 | `LeanEmerald/Substrate.lean` | 637 | `Val.beq_eq` family; `CE_bbApply`; `TowerState.CEInvariant`; `initTower_CEInvariant`; `materialize_CEInvariant`; `setApplyAt_CEInvariant`; `setPolicyAt_CEInvariant`; `mkGate_admits_CE`; `JointInv` and `jointInv` (**Theorem 1**) |
@@ -71,17 +71,19 @@ Scene 3 — tower mechanics (slice 2)
 Scene 4 — proof-bearing gate (slice 3)
 Scene 5 — multn under acceptAll (slice 5 runtime)
 Scene 6 — multn under proof-bearing gate (slice 5 CE)
-Scene 7 — composition of admissions (multn + doubling)
+Scene 7 — runtime wrapper composition and proof-gate filtering (multn + doubling)
 Scene 8 — substrate behavioral CE (Theorem 2 full runtime witness)
 ```
 
 Scene 6 demonstrates the full proof-bearing path: `mkGate
 [multnApproval]` admits `set! base-apply multnClos`, observes `(2 3 4)
 ⇒ 24`, preserves `(+ 1 2) ⇒ 3`, and refuses the install under `mkGate
-[]`. Scene 7 shows that admissions compose at runtime: `acceptAll`
-allows both `multn` then `doubling` installs (yielding `(2 3 4) ⇒ 48`,
-`(+ 1 2) ⇒ 6`), while `mkGate [multnApproval]` refuses the doubling
-install (no matching approval — doubling does not conservatively extend
+[]`. Scene 7 separates runtime wrapper composition from proof-gate
+filtering: under `acceptAll` both `multn` then `doubling` installs go
+through (yielding `(2 3 4) ⇒ 48`, `(+ 1 2) ⇒ 6`) — this is the wrappers
+composing operationally, *not* proof-bearing admission — while `mkGate
+[multnApproval]` admits only `multn` and refuses the `doubling` install
+(no matching approval — doubling does not conservatively extend
 `bbApply`), leaving multn's behavior intact.
 
 Scene 8 is the runtime witness for **Theorem 2 full**: build a

@@ -27,9 +27,9 @@ namespace LeanEmerald
 #guard_msgs in
 #print axioms multnCE
 
-/-- info: 'LeanEmerald.wand_beta_gate_indep_keynote' depends on axioms: [propext, Quot.sound] -/
+/-- info: 'LeanEmerald.betaIdZero_gate_indep_keynote' depends on axioms: [propext, Quot.sound] -/
 #guard_msgs in
-#print axioms wand_beta_gate_indep_keynote
+#print axioms betaIdZero_gate_indep_keynote
 
 /-- info: 'LeanEmerald.eval_pure_gate_indep' depends on axioms: [propext, Quot.sound] -/
 #guard_msgs in

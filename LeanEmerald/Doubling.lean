@@ -1,12 +1,14 @@
 import LeanEmerald.Multn
 
 /-!
-# Doubling — composition of admissions on top of multn
+# Doubling — runtime wrapper composition on top of multn
 
 A `doubling` wrapper that captures `multn` as its `orig` cell, then
-doubles numeric results. Demonstrates that admissions compose at the
+doubles numeric results. Demonstrates that wrappers compose at the
 *runtime* level: two `set! base-apply` modifications in sequence,
-each producing observable behavior in the final program.
+each producing observable behavior in the final program. This is
+operational composition, not proof-bearing admission — under the
+proof gate, doubling is filtered out (see below).
 
 Under `acceptAll`, both installs are admitted unconditionally; under
 the proof-bearing gate built from `[multnApproval]`, the doubling

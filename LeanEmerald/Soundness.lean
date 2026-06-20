@@ -225,8 +225,13 @@ theorem eval_zero_concrete (G : Gate) :
     neither side contains `.setApply` or `.setPolicy`, so the gate is
     never consulted, and the two evaluations follow identical traces
     modulo the redex step (which materializes level 1's apply cell to
-    its default `bbApply`). -/
-theorem wand_beta_gate_indep_keynote (G : Gate) :
+    its default `bbApply`).
+
+    This is gate-independence of a *pure* pair — the gate is never
+    reached — not a refutation of Wand's triviality theorem. For the
+    gated β-defeat where the gate is genuinely active, see lean-sage's
+    `wand_defeated_existential_gated_beta`. -/
+theorem betaIdZero_gate_indep_keynote (G : Gate) :
     evalProgram 10 (.app (.lam ["x"] (.var "x")) [.lit (.num 0)]) G
       = evalProgram 10 (.lit (.num 0)) G := by
   unfold evalProgram
@@ -756,7 +761,7 @@ theorem initEnv_Pure : initEnv.Pure = true := by
 theorem initTower_Pure : initTower.Pure = true := by
   simp [initTower, TowerState.Pure, Level.Pure, Val.Pure]
 
-theorem beta_redex_contextual_gate_indep (n : Nat) (M N : Expr)
+theorem pure_pair_equality_gate_indep (n : Nat) (M N : Expr)
     (hM : M.Pure = true) (hN : N.Pure = true) (G G' : Gate)
     (h : ∀ T₀, T₀.Pure = true →
          eval G n M initEnv 0 T₀ = eval G n N initEnv 0 T₀) :

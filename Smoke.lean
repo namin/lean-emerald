@@ -85,7 +85,7 @@ def main : IO UInt32 := do
   let r16 ← check "rejectAll refuses multn install ; (2 3 4) ⇒ <none>"
     none (evalProgram 100 Demo.installAndMultiplyNums (mkGate []))
 
-  IO.println "\nScene 7 — composition of admissions (multn + doubling)"
+  IO.println "\nScene 7 — runtime wrapper composition and proof-gate filtering (multn + doubling)"
   -- acceptAll: both installs go through; doubling captures multn as orig.
   -- (2 3 4): multn yields 24, doubling doubles to 48.
   let r17 ← check "compose multn + doubling ; (2 3 4) ⇒ 48 (acceptAll)"
