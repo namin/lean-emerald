@@ -18,9 +18,10 @@ the multn install still succeeds.
 ## What this is *not*
 
 Doubling does not conservatively extend `bbApply`: `(+ 1 2) ⇒ 3`
-under baseline but `(+ 1 2) ⇒ 6` under doubling. So we cannot package
-a `CE 0 doublingClos` proof, and doubling can only be admitted under
-`acceptAll` (or a custom gate that doesn't demand CE).
+under baseline but `(+ 1 2) ⇒ 6` under doubling. So no `CE 0 doublingClos`
+proof can exist — this is the theorem `not_CE_doublingClos` in
+`DoublingNotCE.lean` — and doubling can only be admitted under `acceptAll`
+(or a custom gate that doesn't demand CE).
 
 ## Wrapper body
 

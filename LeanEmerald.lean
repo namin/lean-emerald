@@ -7,4 +7,5 @@ import LeanEmerald.Doubling
 import LeanEmerald.Substrate
 import LeanEmerald.SubstrateBehavior
 import LeanEmerald.SubstrateBehaviorFull
+import LeanEmerald.DoublingNotCE
 import LeanEmerald.AxiomAudit

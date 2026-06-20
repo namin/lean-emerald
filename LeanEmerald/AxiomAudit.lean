@@ -2,6 +2,7 @@ import LeanEmerald.Substrate
 import LeanEmerald.Soundness
 import LeanEmerald.Multn
 import LeanEmerald.SubstrateBehaviorFull
+import LeanEmerald.DoublingNotCE
 
 /-!
 # Axiom audit
@@ -38,5 +39,17 @@ namespace LeanEmerald
 /-- info: 'LeanEmerald.substrate_behavioral_CE' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms substrate_behavioral_CE
+
+/-- info: 'LeanEmerald.jointInv' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms jointInv
+
+/-- info: 'LeanEmerald.applyVia_substrate_extends_baseline' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms applyVia_substrate_extends_baseline
+
+/-- info: 'LeanEmerald.not_CE_doublingClos' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms not_CE_doublingClos
 
 end LeanEmerald

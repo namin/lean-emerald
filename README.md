@@ -6,7 +6,7 @@ prioritizing elegance and pedagogy.
 
 ## Status
 
-* **Build:** `lake build` — clean. **Sorry-free across all 9 library files.**
+* **Build:** `lake build` — clean. **Sorry-free across all 10 library files.**
 * **Smoke:** `lake exe smoke` — 23/23 across 8 scenes.
 * **Lean toolchain:** v4.30.0 (matches lean-sage).
 
@@ -19,6 +19,7 @@ prioritizing elegance and pedagogy.
 | `pure_pair_equality_gate_indep` | If a pair of pure terms `M`, `N` evaluates to the same value under *some* gate at any pure initial tower, they do so under *every* gate. A gate-transfer lemma for pure terms. |
 | `multnCE 0 multnClos` | For every call the baseline `bbApply` succeeds on at level 0, the `multn` wrapper produces the same result. The conservative-extension witness for the worked example. |
 | `multnApproval : ApprovedModification` | `multnCE` packaged into an admission record. Kernel-checked. |
+| `not_CE_doublingClos` | `¬ CE 0 doublingClos`: the `doubling` wrapper changes `(+ 1 2)` from `3` to `6`, so no `CE 0` witness can exist. The negative half of the worked pair (with `multnCE`), proved via fuel monotonicity (`applyDirect_fuel_add`). |
 | `jointInv` (**Theorem 1**) | For any `mkGate approvals` and any reachable state from a `CEInvariant`-holding tower, the resulting tower satisfies `CEInvariant`. The state-level substrate-CE invariant. |
 | `applyVia_substrate_extends_baseline` (**Theorem 2 lite**) | At a pure, CE-invariant materialized tower, a baseline-direct dispatch's success implies the substrate's `applyVia` succeeds with the same value. The dispatch-level substrate-CE lift. |
 | `substrate_behavioral_CE` (**Theorem 2 full**) | For pure-of-effects program `e`, pure `ρ`, `AllBbApply` baseline tower `T_base`, and `CEInvariant` substrate tower `T_subst`: a baseline success under `acceptAll` lifts to a substrate success under `mkGate approvals` with the same value. The eval-level substrate behavioral CE. |
@@ -60,6 +61,7 @@ Two boundaries worth stating precisely, so the results are not over-read:
 | `LeanEmerald/Substrate.lean` | 637 | `Val.beq_eq` family; `CE_bbApply`; `TowerState.CEInvariant`; `initTower_CEInvariant`; `materialize_CEInvariant`; `setApplyAt_CEInvariant`; `setPolicyAt_CEInvariant`; `mkGate_admits_CE`; `JointInv` and `jointInv` (**Theorem 1**) |
 | `LeanEmerald/SubstrateBehavior.lean` | 176 | `applyDirect_pure_gate_indep` (extracted from `Joint`); `CEInvariant_applyAt_CE`; `applyDirect_bbApply_unpack`; `applyVia_substrate_extends_baseline` (**Theorem 2 lite**) |
 | `LeanEmerald/SubstrateBehaviorFull.lean` | 959 | `TowerState.AllBbApply` invariant + preservation; joint fuel monotonicity `jointFuelMono`; the 5-conjunct cross-tower `JointBeh` and proof `jointBeh`; `substrate_behavioral_CE` (**Theorem 2 full**) and its `initTower` / `initEnv` / `evalProgram` corollaries |
+| `LeanEmerald/DoublingNotCE.lean` | 61 | `not_CE_doublingClos` — the formal negative result completing the `multn` (CE-certified) / `doubling` (not CE) pair, via `applyDirect_fuel_add` |
 | `Smoke.lean` | 139 | Runtime test scenes (8 scenes, 23 assertions) |
 
 ## Smoke scenes
